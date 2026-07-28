@@ -1,189 +1,149 @@
-# Cyber Security Training - Day 4
+# Cyber Security Training - Day 5
 
-**Date:** 06 July 2026
+**Date:** 07 July 2026
 
----
+## Objective
 
-## Introduction
-
-On the fourth day of my Cyber Security training, I learned about Linux file permissions, file ownership, root and normal users, the `sudo` command, password management, and system updates. These concepts are essential for Linux administration and cybersecurity.
+The objective of today's session was to understand Linux user and group management, learn about important system files related to user accounts, practice creating users and groups, assign users to groups, and understand the Linux directory structure.
 
 ---
 
-## Linux File Permissions
+## Topics Covered
 
-Linux uses three basic permissions to control access to files and directories.
+### 1. Linux User Information Files
 
-| Permission | Symbol | Numeric Value | Description |
-|------------|--------|---------------|-------------|
-| Read | `r` | 4 | Allows viewing the contents of a file. |
-| Write | `w` | 2 | Allows modifying or editing a file. |
-| Execute | `x` | 1 | Allows executing a file or script. |
+Learned about the important files located in the `/etc` directory that store user and group information.
 
-To check file permissions:
+- **/etc/passwd**
+  - Stores basic information about all user accounts.
+  - Contains username, User ID (UID), Group ID (GID), home directory, and default shell.
+
+- **/etc/shadow**
+  - Stores encrypted passwords of users.
+  - Accessible only by the root user for security purposes.
+
+- **/etc/group**
+  - Stores information about all groups available on the system.
+
+- **/etc/gshadow**
+  - Stores secure group password information and group administration details.
+
+---
+
+### 2. Creating a New User
+
+Learned how to create a new user account in Linux.
+
+**Command:**
 
 ```bash
-ls -l
+sudo adduser user1
+```
+
+During user creation, Linux prompts for:
+
+- Password
+- User details (optional)
+- Confirmation of the information
+
+---
+
+### 3. Viewing User Details
+
+Learned how to display information about a user.
+
+**Command:**
+
+```bash
+id user1
+```
+
+This command displays:
+
+- User ID (UID)
+- Group ID (GID)
+- Groups the user belongs to
+
+---
+
+### 4. Creating a New Group
+
+Learned how to create a new group to organize users and manage permissions.
+
+**Command:**
+
+```bash
+sudo groupadd developers
+```
+
+Groups help in assigning common permissions to multiple users.
+
+---
+
+### 5. Adding a User to a Group
+
+Learned how to associate (link) a user with an existing group.
+
+**Command:**
+
+```bash
+sudo usermod -aG developers user1
+```
+
+The `-aG` option adds the user to the specified group without removing them from their existing groups.
+
+To verify the group membership:
+
+```bash
+groups user1
+```
+
+or
+
+```bash
+id user1
 ```
 
 ---
 
-## Changing File Permissions
+### 6. Login Using Password
 
-The `chmod` command is used to modify file permissions.
+Learned how users log in to the Linux system using their username and password.
 
-### Numeric Method
+The authentication process checks the encrypted password stored in the `/etc/shadow` file before granting access to the system.
 
-```bash
-chmod 110 hash.txt
-```
-
-Example:
+To switch to another user:
 
 ```bash
-chmod 440 hash.txt
+su - user1
 ```
 
-Permission Breakdown:
-
-- Owner: Read (`4`)
-- Group: Read (`4`)
-- Others: No Permission (`0`)
-
-### Symbolic Method
-
-```bash
-chmod u+rwx filename
-```
-
-Where:
-
-- `u` = User (Owner)
-- `g` = Group
-- `o` = Others
-- `+` = Add permission
-- `-` = Remove permission
-
-Example:
-
-```bash
-chmod u+r hash.txt
-```
-
----
-
-## File Ownership
-
-Every file in Linux has:
-
-- Owner
-- Group
-- Others
-
-To change the owner of a file:
-
-```bash
-sudo chown root hash.txt
-```
-
-To verify the changes:
-
-```bash
-ls -l
-```
-
----
-
-## Root User vs Normal User
-
-Linux uses different symbols to represent different users.
-
-| Symbol | User Type |
-|--------|-----------|
-| `#` | Root User |
-| `$` | Normal User |
-
-- The **Root User** has complete administrative privileges.
-- The **Normal User** has limited permissions.
-
----
-
-## The `sudo` Command
-
-`sudo` stands for **Super User Do**.
-
-It allows a normal user to execute commands with root privileges.
-
-Examples:
-
-```bash
-sudo chmod 440 hash.txt
-```
-
-```bash
-sudo chown root hash.txt
-```
-
-Whenever a permission error occurs, `sudo` can be used (if the user has permission) to execute the command.
-
----
-
-## Changing the Root Password
-
-To change the root password:
-
-```bash
-passwd root
-```
-
-If permission is denied:
-
-```bash
-sudo passwd root
-```
-
-After entering the new password twice, the password is updated successfully.
-
----
-
-## Updating the System
-
-To update the package list in Kali Linux:
-
-```bash
-sudo apt update
-```
-
-I learned that running `apt update` as a normal user may fail because administrative privileges are required.
+The system prompts for the user's password before allowing login.
 
 ---
 
 ## Commands Practiced
 
 ```bash
-ls -l
-chmod 110 hash.txt
-chmod 440 hash.txt
-chmod u+rwx filename
-sudo chown root hash.txt
-passwd root
-sudo passwd root
-sudo apt update
+cat /etc/passwd
+cat /etc/shadow
+cat /etc/group
+cat /etc/gshadow
+
+sudo adduser user1
+id user1
+
+sudo groupadd developers
+
+sudo usermod -aG developers user1
+
+groups user1
+
+su - user1
 ```
 
 ---
 
-## Key Learning Outcomes
+## Learning Outcome
 
-- Learned Linux file permissions (`r`, `w`, `x`).
-- Understood numeric permission values (4, 2, 1).
-- Practiced changing file permissions using the `chmod` command.
-- Learned symbolic permission notation (`u`, `g`, `o`).
-- Understood file ownership in Linux.
-- Learned how to change file ownership using the `chown` command.
-- Understood the difference between root and normal users.
-- Learned the purpose and use of the `sudo` command.
-- Practiced changing the root password.
-- Learned how to update Kali Linux using `sudo apt update`.
-
----
+By the end of Day 5, I gained a clear understanding of Linux user and group management. I learned the purpose of important system files such as `/etc/passwd`, `/etc/shadow`, `/etc/group`, and `/etc/gshadow`. I practiced creating users and groups, linking users to groups, viewing user information, and logging into the system using passwords.
